@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form th:action="@{/san-pham/add/save}" th:object="${sanPham}" method="post">
+            <div class="form-group" hidden>
+                <label for="idSanPham">ID Sản Phẩm:</label> <input type="number" th:field="*{id}" class="form-control"
+                                                                   id="idSanPham" readonly>
+            </div>
+            <div class="form-group">
+                <label for="tenSp">Tên Sản Phẩm:</label> <input type="text" th:field="*{tenSp}" class="form-control"
+                                                                id="tenSp" placeholder="Nhập tên sản phẩm" required>
+            </div>
+            <div class="form-group">
+                <label for="gia">Giá:</label> <input type="number" th:field="*{gia}" class="form-control" id="gia"
+                                                     placeholder="Nhập giá sản phẩm" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="soLuong">Số Lượng:</label> <input type="number" th:field="*{soLuong}" class="form-control"
+                                                              id="soLuong" placeholder="Nhập số lượng" required>
+            </div>
+            <div class="form-group">
+                <label for="moTa">Mô Tả:</label> <textarea th:field="*{moTa}" class="form-control" id="moTa" rows="3"
+                                                           placeholder="Nhập mô tả sản phẩm"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="idLoai">Loại Sản Phẩm:</label> <select th:field="*{idLoai}" class="form-control" id="idLoai"
+                                                                   required>
+                <option th:each="loai : ${loaiSanPhamList}" th:value="${loai.getId()}"
+                        th:text="${loai.getTenLoai()}"></option>
+            </select>
+            </div>
+            <div class="form-group">
+                <label for="idNsx">Nhà Sản Xuất:</label> <select th:field="*{idNsx}" class="form-control" id="idNsx"
+                                                                 required>
+                <option th:each="nsx : ${nhaSanXuatList}" th:value="${nsx.getId()}"
+                        th:text="${nsx.getTenNsx()}"></option>
+            </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

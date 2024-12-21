@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>San Pham</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <h1>lkfsjdlfksjfl</h1>
+        <div class="col-md-8">
+            <div class="table-container">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>ten</th>
+                        <th>gia</th>
+                        <th>so luong</th>
+                        <th>loai</th>
+                        <th>nha san xuat</th>
+                        <th>
+                            <a th th:href="@{/san-pham/add}" class="btn btn-success">Them</a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="sanPham : ${sanPhamList}">
+                        <td th:text="${sanPham.getId()}"></td>
+                        <td th:text="${sanPham.getTenSp()}"></td>
+                        <td th:text="${sanPham.getGia()} + ' USD'"></td>
+                        <td th:text="${sanPham.getSoLuong()}"></td>
+                        <td th:text="${sanPham.getIdLoai().getTenLoai()}"></td>
+                        <td th:text="${sanPham.getIdNsx().getTenNsx()}"></td>
+                        <td>
+                            <a th:href="@{/san-pham/edit/{id}(id=${sanPham.id})}" class="btn btn-primary">Sua</a>
+                            <a th:href="@{/san-pham/delete/{id}(id=${sanPham.id})}" class="btn btn-danger">Xoa</a>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
