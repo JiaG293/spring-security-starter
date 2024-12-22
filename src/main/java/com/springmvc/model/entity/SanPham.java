@@ -1,6 +1,8 @@
 package com.springmvc.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -21,9 +23,12 @@ public class SanPham {
     @Column(name = "id_sp", nullable = false)
     private Long id;
 
+    @NotNull(message = "Số lượng không được để trống")
     @Column(name = "ten_sp", nullable = false, length = 100)
     private String tenSp;
 
+
+    @DecimalMin(value = "10", message = "sai so roi")
     @Column(name = "gia", nullable = false, precision = 15, scale = 2)
     private BigDecimal gia;
 

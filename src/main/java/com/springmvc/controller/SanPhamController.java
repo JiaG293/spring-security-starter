@@ -4,22 +4,22 @@ import com.springmvc.model.entity.SanPham;
 import com.springmvc.service.impl.LoaiSanPhamServiceImpl;
 import com.springmvc.service.impl.NhaSanXuatServiceImpl;
 import com.springmvc.service.impl.SanPhamServiceImpl;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 @Controller
-public class SanPhamWebController {
+
+public class SanPhamController {
     SanPhamServiceImpl sanPhamService;
     LoaiSanPhamServiceImpl loaiSanPhamService;
     NhaSanXuatServiceImpl nhaSanXuatService;
@@ -27,6 +27,17 @@ public class SanPhamWebController {
     @GetMapping
     public String home() {
         return "index";
+    }
+
+    @GetMapping("/san-pham")
+    public String sanPhamListPage(Model model) {
+        var sanPhamList = sanPhamService.getAllSanPham();
+        if (sanPhamList != null) {
+            model.addAttribute("sanPhamList", sanPhamList);
+            return "sanPham/san-pham";
+        } else {
+            return "exception/404";
+        }
     }
 
     @GetMapping("/san-pham/{id}")
@@ -51,9 +62,17 @@ public class SanPhamWebController {
     }
 
     @PostMapping("/san-pham/add/save")
-    public String addSanPham(@ModelAttribute SanPham sanPham) {
-        sanPhamService.saveSanPham(sanPham);
-        return "redirect:/san-pham";
+    public String addSanPham(@Valid @ModelAttribute SanPham sanPham, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            var loaiSanPhamList = loaiSanPhamService.getAllLoaiSanPham();
+            var nhaSanXuatList = nhaSanXuatService.getAllNhaSanXuat();
+            model.addAttribute("loaiSanPhamList", loaiSanPhamList);
+            model.addAttribute("nhaSanXuatList", nhaSanXuatList);
+            return "sanPham/add";
+        } else {
+            sanPhamService.saveSanPham(sanPham);
+            return "redirect:/san-pham";
+        }
     }
 
 
@@ -84,15 +103,6 @@ public class SanPhamWebController {
         return "redirect:/san-pham";
     }
 
-    @GetMapping("/san-pham")
-    public String sanPhamListPage(Model model) {
-        var sanPhamList = sanPhamService.getAllSanPham();
-        if (sanPhamList != null) {
-            model.addAttribute("sanPhamList", sanPhamList);
-            return "sanPham/san-pham";
-        } else {
-            return "exception/404";
-        }
-    }
+
 
 }

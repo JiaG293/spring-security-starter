@@ -18,6 +18,7 @@
                                                                 id="tenSp" placeholder="Nhập tên sản phẩm" required>
             </div>
             <div class="form-group">
+                <div th:if="${#fields.hasErrors('gia')}" th:errors="*{gia}" class="text-danger"></div>
                 <label for="gia">Giá:</label> <input type="number" th:field="*{gia}" class="form-control" id="gia"
                                                      placeholder="Nhập giá sản phẩm" step="0.01" required>
             </div>
